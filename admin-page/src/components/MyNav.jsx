@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Nav from "react-bootstrap/Nav";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function MyNav() {
   const [activeItem, setActiveItem] = useState("Dashboard");
@@ -39,7 +39,7 @@ function MyNav() {
         {navItems.map((item) => (
           <Nav.Link
             key={item.name}
-            // as={Link}
+            as={Link}
             to={item.to}
             onClick={() => setActiveItem(item.name)}
             style={getLinkStyle(item.name)}
