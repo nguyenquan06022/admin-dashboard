@@ -44,6 +44,31 @@ const CustomerTable = () => {
     setIsModalOpen(true);
   };
 
+  const handleSave = async () => {
+    try {
+      await fetch(
+        `http://localhost:3000/api/customers/edit/${editingCustomer.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editingCustomer),
+        }
+      );
+      setIsModalOpen(false);
+      fetchCustomers();
+      toast.success("Edit user successfull");
+    } catch (error) {
+      console.error("Error updating customer:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditingCustomer((prev) => ({ ...prev, [name]: value }));
+  };
+
   const totalPages = Math.ceil(customers.length / customersPerPage);
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
@@ -264,6 +289,7 @@ const CustomerTable = () => {
               name="name"
               value={editingCustomer.name}
               placeholder="Name"
+              onChange={handleChange}
               style={inputStyle}
             />
             <input
@@ -271,6 +297,7 @@ const CustomerTable = () => {
               name="company"
               value={editingCustomer.company}
               placeholder="Company"
+              onChange={handleChange}
               style={inputStyle}
             />
             <input
@@ -278,6 +305,7 @@ const CustomerTable = () => {
               name="orderValue"
               value={editingCustomer.orderValue}
               placeholder="Order Value"
+              onChange={handleChange}
               style={inputStyle}
             />
             <input
@@ -285,11 +313,13 @@ const CustomerTable = () => {
               name="orderDate"
               value={editingCustomer.orderDate}
               placeholder="Order Date"
+              onChange={handleChange}
               style={inputStyle}
             />
             <select
               name="status"
               value={editingCustomer.status}
+              onChange={handleChange}
               style={inputStyle}
             >
               <option value="New">New</option>
@@ -310,6 +340,7 @@ const CustomerTable = () => {
                 Cancel
               </button>
               <button
+                onClick={handleSave}
                 style={{
                   padding: "6px 12px",
                   backgroundColor: "#4CAF50",
