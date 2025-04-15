@@ -39,6 +39,11 @@ const CustomerTable = () => {
       .catch((err) => console.error("Error fetching customers:", err));
   };
 
+  const handleEditClick = (customer) => {
+    setEditingCustomer({ ...customer });
+    setIsModalOpen(true);
+  };
+
   const totalPages = Math.ceil(customers.length / customersPerPage);
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
@@ -180,6 +185,7 @@ const CustomerTable = () => {
                   }}
                   onMouseOver={(e) => (e.currentTarget.style.opacity = 1)}
                   onMouseOut={(e) => (e.currentTarget.style.opacity = 0.6)}
+                  onClick={() => handleEditClick(customer)}
                 />
               </td>
             </tr>
