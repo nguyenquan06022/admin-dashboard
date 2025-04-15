@@ -28,6 +28,17 @@ const CustomerTable = () => {
   });
   const customersPerPage = 6;
 
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = () => {
+    fetch("http://localhost:3000/api/customers")
+      .then((res) => res.json())
+      .then((data) => setCustomers(data))
+      .catch((err) => console.error("Error fetching customers:", err));
+  };
+
   const totalPages = Math.ceil(customers.length / customersPerPage);
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
