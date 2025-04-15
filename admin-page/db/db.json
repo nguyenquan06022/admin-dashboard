@@ -647,6 +647,15 @@
       "status": "New",
       "avatar": "/images/Avatar 313.png",
       "id": 69
+    },
+    {
+      "name": "nguyenquan0602",
+      "company": "Alpha Solutions",
+      "orderValue": 1,
+      "orderDate": "2023-03-07",
+      "status": "New",
+      "avatar": "/images/Avatar 313.png",
+      "id": 70
     }
   ]
 }

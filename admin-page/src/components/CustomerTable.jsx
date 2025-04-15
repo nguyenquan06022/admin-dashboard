@@ -69,6 +69,37 @@ const CustomerTable = () => {
     setEditingCustomer((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleAddCustomer = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/customers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...newCustomer,
+          // Đảm bảo orderValue là số
+          orderValue: Number(newCustomer.orderValue),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      setIsAddModalOpen(false);
+      fetchCustomers();
+      toast.success("Add user successfull");
+    } catch (error) {
+      console.error("Error adding customer:", error);
+    }
+  };
+
+  const handleAddCustomerChange = (e) => {
+    const { name, value } = e.target;
+    setNewCustomer((prev) => ({ ...prev, [name]: value }));
+  };
+
   const totalPages = Math.ceil(customers.length / customersPerPage);
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
@@ -122,6 +153,7 @@ const CustomerTable = () => {
         </div>
         <div>
           <button
+            onClick={() => setIsAddModalOpen(true)}
             className="btn"
             style={{
               backgroundColor: "white",
@@ -372,6 +404,7 @@ const CustomerTable = () => {
               type="text"
               name="name"
               value={newCustomer.name}
+              onChange={handleAddCustomerChange}
               placeholder="Customer Name"
               style={inputStyle}
             />
@@ -379,6 +412,7 @@ const CustomerTable = () => {
               type="text"
               name="company"
               value={newCustomer.company}
+              onChange={handleAddCustomerChange}
               placeholder="Company"
               style={inputStyle}
             />
@@ -386,6 +420,7 @@ const CustomerTable = () => {
               type="number"
               name="orderValue"
               value={newCustomer.orderValue}
+              onChange={handleAddCustomerChange}
               placeholder="Order Value"
               style={inputStyle}
             />
@@ -393,10 +428,16 @@ const CustomerTable = () => {
               type="text"
               name="orderDate"
               value={newCustomer.orderDate}
+              onChange={handleAddCustomerChange}
               placeholder="Order Date (e.g., 2023-05-15)"
               style={inputStyle}
             />
-            <select name="status" value={newCustomer.status} style={inputStyle}>
+            <select
+              name="status"
+              value={newCustomer.status}
+              style={inputStyle}
+              onChange={handleAddCustomerChange}
+            >
               <option value="New">New</option>
               <option value="In-progress">In-progress</option>
               <option value="Completed">Completed</option>
@@ -415,6 +456,7 @@ const CustomerTable = () => {
                 Cancel
               </button>
               <button
+                onClick={handleAddCustomer}
                 style={{
                   padding: "6px 12px",
                   backgroundColor: "#4CAF50",
