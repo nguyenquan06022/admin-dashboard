@@ -17,7 +17,7 @@ function DashBoard() {
         const [turnoverRes, profitRes, newCustomerRes] = await Promise.all([
           fetch("http://localhost:3000/api/turnover"),
           fetch("http://localhost:3000/api/profit"),
-          fetch("http://localhost:3000/api/new-customer"), // <-- Sửa dòng này
+          fetch("http://localhost:3000/api/new-customer"),
         ]);
 
         if (!turnoverRes.ok || !profitRes.ok || !newCustomerRes.ok) {
